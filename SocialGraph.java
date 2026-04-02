@@ -11,6 +11,8 @@ public class SocialGraph {
     }
 
     public void loadGraph(String filePath) {
+        graph.clear();
+
         try {
             Scanner file = new Scanner(new File(filePath));
 
@@ -32,8 +34,10 @@ public class SocialGraph {
             file.close();
             System.out.println("Graph loaded!");
 
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
         } catch (Exception e) {
-            System.out.println("Error reading file.");
+            System.out.println("Invalid file format.");
         }
     }
 
@@ -57,6 +61,11 @@ public class SocialGraph {
     public void displayConnection(int start, int end) {
         if (start < 0 || start >= numNodes || end < 0 || end >= numNodes) {
             System.out.println("Invalid ID.");
+            return;
+        }
+
+        if (start == end) {
+            System.out.println("Same person.");
             return;
         }
 
@@ -126,17 +135,46 @@ public class SocialGraph {
             System.out.println("[3] Exit");
 
             System.out.print("Enter your choice: ");
+
+            if (!input.hasNextInt()) {
+                System.out.println("Invalid input.");
+                input.next();
+                continue;
+            }
+
             int choice = input.nextInt();
 
             if (choice == 1) {
                 System.out.print("Enter ID of person: ");
+
+                if (!input.hasNextInt()) {
+                    System.out.println("Invalid input.");
+                    input.next();
+                    continue;
+                }
+
                 int id = input.nextInt();
                 sg.displayFriendList(id);
 
             } else if (choice == 2) {
                 System.out.print("Enter ID of first person: ");
+
+                if (!input.hasNextInt()) {
+                    System.out.println("Invalid input.");
+                    input.next();
+                    continue;
+                }
+
                 int a = input.nextInt();
+
                 System.out.print("Enter ID of second person: ");
+
+                if (!input.hasNextInt()) {
+                    System.out.println("Invalid input.");
+                    input.next();
+                    continue;
+                }
+
                 int b = input.nextInt();
                 sg.displayConnection(a, b);
 
